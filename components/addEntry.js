@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { getMetricMetaInfo } from '../utils/helpers'
-
+import { View,Text } from 'react-native'
+import { Ionicons } from "@expo/vector-icons";
+import { getMetricMetaInfo, timeToString } from '../utils/helpers'
+import UdaciSlider from './UdaciSlider'
+import UdaciStepper from './UdaciStepper'
+import DateHeader from './dateHeader'
+import SubmitBtn from './submitBtn'
+import TextButton from './TextButton'
 
 class AddEntry extends Component {
-    store = {
+    state = {
         run: 0,
         bike:0,
         swim:0,
@@ -42,15 +47,81 @@ class AddEntry extends Component {
         })
     }
 
+    submit = () => {
+        const key = timeToString()
+        const entry = this.state
 
+        // Update Redux
+        this.setState(() => ({ 
+            run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 
+        }))
+
+        // Navigate to home
+
+        // Save to "DB"
+
+        // Clear local notification
+    }
+
+    reset = () => {
+        const key = timeToString()
+
+        // Update Redux
+
+        // Route to Home
+
+        // Update "DB"
+
+    }
 
     render(){
+
+        if(this.props.alreadyLogged){
+            return (
+                <View>
+                    <Ionicons
+                        name={'md-happy'}
+                        size={100}
+                    />
+                    <Text>You already logged your information for today.</Text>
+                    <TextButton onPress={this.reset}>
+                        Reset
+                    </TextButton>
+                </View>
+            )
+        }
+
+        const metaInfo = getMetricMetaInfo()
         return (
             <View>
-                {
-                    getMetricMetaInfo('bike').getIcon()
-                }
+                <DateHeader date={(new Date()).toLocaleDateString()} />
+                {Object.keys(metaInfo).map((key) => {
+                    const { getIcon, type, ...rest} = metaInfo[key]
+                    const value = this.state[key]
+
+                    return (
+                        <View key={key}>
+                            {getIcon()}
+                            {type === 'slider'
+                                ? <UdaciSlider
+                                    value={value}
+                                    onChange={(value) => this.slide(key, value)}
+                                    {...rest}
+                                />
+                                : <UdaciStepper
+                                    value={value}
+                                    onIncrement={() => this.increment(key)}
+                                    onDecrement={() => this.decrement(key)}
+                                    {...rest}
+                                />}
+                        </View>
+                    )
+                })}
+                                <Text>{JSON.stringify(this.state)}</Text>
+
+                <SubmitBtn onPress={this.submit}/>
             </View>
+
         )
     }
 }
