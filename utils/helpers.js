@@ -63,7 +63,7 @@ export function isBetween (num, x, y) {
             <View>
               <MaterialIcons 
                 name="directions-run"
-                color={purple}
+                color='balck'
                 size={35}
               />
             </View>
@@ -82,7 +82,7 @@ export function isBetween (num, x, y) {
             <View>
               <MaterialCommunityIcons 
                 name="bike"
-                color={purple}
+                color='black'
                 size={32}
               />
             </View>
