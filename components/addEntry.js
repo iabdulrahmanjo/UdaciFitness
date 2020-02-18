@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View,Text, StyleSheet } from 'react-native'
+import { View,Text, StyleSheet, Platform } from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
@@ -89,9 +89,9 @@ class AddEntry extends Component {
 
         if(this.props.alreadyLogged){
             return (
-                <View>
+                <View style={style.center}>
                     <Ionicons
-                        name={'md-happy'}
+                        name={Platform.OS === "ios" ? "ios-happy" : "md-happy"}
                         size={100}
                     />
                     <Text>You already logged your information for today.</Text>
@@ -138,17 +138,25 @@ class AddEntry extends Component {
 const style = StyleSheet.create({
     container:{
         flex: 1,
-        paddingTop:60,
         padding: 20,
         backgroundColor: white,
     },
 
     row:{
         flexDirection: "row",
-        // flex:1,
-        marginBottom:55,
+        flex:1,
+        // marginBottom:55,
         alignItems:"center",
-    }
+    },
+
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 30,
+        marginLeft: 30,
+
+      },
 })
 
 const mapStateToProp = (state) => {

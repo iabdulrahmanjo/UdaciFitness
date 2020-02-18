@@ -19,7 +19,15 @@ const UdaciStepper = ({ onIncrement, onDecrement, value, step, max,unit}) => {
                         <Entypo name='plus' size={30} color={'black'} />
                     </TouchableOpacity>
                 </View>
-                : <Text>hello</Text>
+                : 
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity style={style.androidBtn} onPress={onDecrement}>
+                    <FontAwesome name='minus' size={30} color={white} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.androidBtn} onPress={onIncrement}>
+                    <FontAwesome name='plus' size={30} color={white} />
+                    </TouchableOpacity>
+                </View>
             }
             <View style={style.matricCounter} >
                 <Text style={{fontSize:24, textAlign:'center' }}>{value}</Text>
@@ -41,7 +49,7 @@ const style = StyleSheet.create({
     matricCounter:{
         justifyContent:'center',
         alignItems:'center',
-        width:60,
+        width:70,
     },
 
     iosBtn:{
@@ -52,7 +60,13 @@ const style = StyleSheet.create({
         padding:5,
         paddingLeft:25,
         paddingRight:25,
-    }
+    },
+    androidBtn: {
+        margin: 5,
+        backgroundColor: purple,
+        padding: 10,
+        borderRadius: 2,
+      },
 })
 
 export default UdaciStepper
