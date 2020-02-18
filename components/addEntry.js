@@ -7,6 +7,7 @@ import UdaciStepper from './UdaciStepper'
 import DateHeader from './dateHeader'
 import SubmitBtn from './submitBtn'
 import TextButton from './TextButton'
+import { submitEntry, removeEntry} from '../utils/api'
 
 class AddEntry extends Component {
     state = {
@@ -58,7 +59,7 @@ class AddEntry extends Component {
 
         // Navigate to home
 
-        // Save to "DB"
+        submitEntry({key,entry})
 
         // Clear local notification
     }
@@ -70,8 +71,7 @@ class AddEntry extends Component {
 
         // Route to Home
 
-        // Update "DB"
-
+        removeEntry(key)
     }
 
     render(){
