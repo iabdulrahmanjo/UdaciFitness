@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View,Text } from 'react-native'
+import { View,Text, StyleSheet } from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
@@ -10,6 +10,7 @@ import TextButton from './TextButton'
 import { submitEntry, removeEntry} from '../utils/api'
 import { connect } from 'react-redux'
 import { addEntry } from '../actions/index'
+import { white } from '../utils/colors';
 
 class AddEntry extends Component {
     state = {
@@ -103,14 +104,14 @@ class AddEntry extends Component {
 
         const metaInfo = getMetricMetaInfo()
         return (
-            <View>
-                <DateHeader date={(new Date()).toLocaleDateString()} />
+            <View style={style.container}>
+                <DateHeader date={(new Date()).toUTCString().substr(0,12)}/>
                 {Object.keys(metaInfo).map((key) => {
                     const { getIcon, type, ...rest} = metaInfo[key]
                     const value = this.state[key]
 
                     return (
-                        <View key={key}>
+                        <View key={key} style={style.row}>
                             {getIcon()}
                             {type === 'slider'
                                 ? <UdaciSlider
@@ -127,14 +128,28 @@ class AddEntry extends Component {
                         </View>
                     )
                 })}
-                                <Text>{JSON.stringify(this.state)}</Text>
-
                 <SubmitBtn onPress={this.submit}/>
             </View>
 
         )
     }
 }
+
+const style = StyleSheet.create({
+    container:{
+        flex: 1,
+        paddingTop:60,
+        padding: 20,
+        backgroundColor: white,
+    },
+
+    row:{
+        flexDirection: "row",
+        // flex:1,
+        marginBottom:55,
+        alignItems:"center",
+    }
+})
 
 const mapStateToProp = (state) => {
     const key = timeToString();
